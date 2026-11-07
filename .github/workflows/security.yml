@@ -1,15 +1,8 @@
-# security.yml
-# ─────────────────────────────────────────────────────────────
-# TechCorp AI Assistant — DevSecOps Security Pipeline
-# Runs on every push to any branch.
-# 4 sequential gates must all pass before code is considered deployable.
-# ─────────────────────────────────────────────────────────────
-
 name: AI Application Security Gates
 
 on:
   push:
-    branches: ["**"]   # triggers on push to every branch
+    branches: ["**"]
   pull_request:
     branches: ["**"]
 
@@ -35,10 +28,6 @@ jobs:
         run: pip install bandit
 
       - name: Run Bandit (fail on HIGH severity)
-        # -r  = recursive scan of entire repo
-        # -ll = only report Medium and above (-lll for High only)
-        # We use -ll here and check exit code; bandit exits non-zero
-        # if issues are found at or above the specified level.
         run: bandit -r . -ll --exclude ./.git,./venv,./env,./ai-lab
 
   # ── GATE 2: Safety Dependency Scan ────────────────────────
@@ -47,7 +36,6 @@ jobs:
   safety-dependency-scan:
     name: "Gate 2 — Safety Dependency Scan"
     runs-on: ubuntu-latest
-    needs: bandit-sast   # only runs if Gate 1 passes
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -61,23 +49,19 @@ jobs:
         run: pip install safety
 
       - name: Run Safety check
-        # Scans requirements.txt for known CVEs.
-        # Exit code 64 = vulnerabilities found (treated as failure).
         run: safety check -r requirements.txt
 
   # ── GATE 3: Gitleaks Secret Detection ─────────────────────
-  # Scans the full git history and current diff for secrets:
-  # API keys, passwords, tokens, private keys, etc.
+  # Scans the full git history and current diff for secrets.
   # Fails pipeline if any secret pattern is matched.
   gitleaks-secret-scan:
     name: "Gate 3 — Gitleaks Secret Detection"
     runs-on: ubuntu-latest
-    needs: safety-dependency-scan   # only runs if Gate 2 passes
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0   # full history needed for Gitleaks
+          fetch-depth: 0
 
       - name: Run Gitleaks
         uses: gitleaks/gitleaks-action@v2
@@ -87,11 +71,9 @@ jobs:
   # ── GATE 4: Custom Prompt Injection Scanner ────────────────
   # Runs inject_scanner.py to detect hardcoded system prompts
   # and injection bypass phrases in the Python source.
-  # Fails pipeline (exit code 1) if any match is found.
   prompt-injection-scan:
     name: "Gate 4 — Prompt Injection Scanner"
     runs-on: ubuntu-latest
-    needs: gitleaks-secret-scan   # only runs if Gate 3 passes
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
