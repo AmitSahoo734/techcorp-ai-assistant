@@ -120,10 +120,6 @@ def ask():
             "details": str(e)
         }), 503
 
-# Deliberately insecure — for pipeline fail test
-def dangerous_eval(user_input):
-    return eval(user_input)   # HIGH severity Bandit finding
-
 if __name__ == "__main__":
     app.run(
         host="127.0.0.1",
