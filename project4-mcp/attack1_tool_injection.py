@@ -31,7 +31,7 @@ payload = {
     "stream": False
 }
 
-response = requests.post(OLLAMA_URL, json=payload)
+response = requests.post(OLLAMA_URL, json=payload, timeout=120)
 result = response.json()
 
 print(f"Model Response:\n{result.get('response', 'No response')}")

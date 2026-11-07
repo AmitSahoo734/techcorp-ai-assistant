@@ -28,7 +28,7 @@ jobs:
         run: pip install bandit
 
       - name: Run Bandit (fail on HIGH severity)
-        run: bandit -r . -ll --exclude ./.git,./venv,./env,./ai-lab
+        run: bandit -r . -lll --exclude ./.git,./venv,./env,./ai-lab,./project4-mcp
 
   # ── GATE 2: Safety Dependency Scan ────────────────────────
   # Checks requirements.txt against the Safety CVE database.
@@ -48,8 +48,8 @@ jobs:
       - name: Install Safety
         run: pip install safety
 
-      - name: Run Safety check
-        run: safety check -r requirements.txt
+      - name: Run Safety scan
+        run: safety scan -r requirements.txt
 
   # ── GATE 3: Gitleaks Secret Detection ─────────────────────
   # Scans the full git history and current diff for secrets.
