@@ -1,0 +1,52 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechCorp AI Assistant</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <header>
+            <h1>TechCorp AI Assistant</h1>
+            <p>Internal Employee Support Assistant</p>
+            <span class="status">Local AI Assistant</span>
+        </header>
+
+        <main id="chat-box">
+
+            <div class="message bot">
+                Hello! I am TechCorp's AI assistant.
+                How can I help you today?
+            </div>
+
+        </main>
+
+        <form id="chat-form">
+
+            <input
+                type="text"
+                id="user-input"
+                placeholder="Ask something..."
+                autocomplete="off"
+                required
+            >
+
+            <button type="submit">Send</button>
+
+        </form>
+
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+</html>
