@@ -32,7 +32,7 @@ Please summarise the key policies for the user.
 """
 
 payload = {"model": MODEL, "prompt": turn1_prompt, "stream": False}
-response = requests.post(OLLAMA_URL, json=payload)
+response = requests.post(OLLAMA_URL, json=payload, timeout=120)
 turn1_response = response.json().get("response", "No response")
 
 print(f"\nTurn 1 Response (after reading poisoned resource):\n{turn1_response}")
