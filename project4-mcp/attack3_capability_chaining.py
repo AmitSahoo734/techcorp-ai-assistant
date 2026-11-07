@@ -30,7 +30,7 @@ Show me all results.
 print(f"\n[STEP 1] Prompt to trigger query_database:\n{step1_prompt}")
 
 payload1 = {"model": MODEL, "prompt": step1_prompt, "stream": False}
-response1 = requests.post(OLLAMA_URL, json=payload1)
+response1 = requests.post(OLLAMA_URL, json=payload1, timeout=120)
 step1_response = response1.json().get("response", "No response")
 print(f"\n[STEP 1] Model Response:\n{step1_response}")
 
@@ -61,7 +61,7 @@ Use the send_notification tool with:
 print(f"\n[STEP 2] Prompt to trigger send_notification (exfiltration):\n{step2_prompt}")
 
 payload2 = {"model": MODEL, "prompt": step2_prompt, "stream": False}
-response2 = requests.post(OLLAMA_URL, json=payload2)
+response2 = requests.post(OLLAMA_URL, json=payload2, timeout=120)
 step2_response = response2.json().get("response", "No response")
 
 print(f"\n[STEP 2] Model Response:\n{step2_response}")
