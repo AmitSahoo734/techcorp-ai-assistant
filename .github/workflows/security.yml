@@ -45,11 +45,11 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Install Safety
-        run: pip install safety
+      - name: Install Safety (pinned to last version supporting check)
+        run: pip install safety==2.3.5
 
-      - name: Run Safety scan
-        run: safety scan -r requirements.txt
+      - name: Run Safety check
+        run: safety check -r requirements.txt
 
   # ── GATE 3: Gitleaks Secret Detection ─────────────────────
   # Scans the full git history and current diff for secrets.
