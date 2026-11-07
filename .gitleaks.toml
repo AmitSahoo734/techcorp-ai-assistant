@@ -1,0 +1,64 @@
+# .gitleaks.toml
+# Custom Gitleaks ruleset for TechCorp AI Assistant
+# Used by Gate 3 of the DevSecOps security pipeline
+
+title = "TechCorp Gitleaks Config"
+
+[extend]
+# Extend the default Gitleaks ruleset with our custom rules
+# This ensures built-in rules (AWS keys, GitHub tokens etc.) still apply
+useDefault = true
+
+[[rules]]
+id = "hardcoded-api-key"
+description = "Hardcoded API key detected in source code"
+regex = '''(?i)api[_\-]?key\s*=\s*["'][A-Za-z0-9\-_]{8,}["']'''
+tags = ["secret", "api-key"]
+severity = "HIGH"
+
+  [rules.allowlist]
+  regexes = [
+    '''os\.environ''',        # allow os.environ.get() calls
+    '''environ\.get''',       # allow environ.get() calls
+  ]
+
+[[rules]]
+id = "hardcoded-password"
+description = "Hardcoded password detected in source code"
+regex = '''(?i)password\s*=\s*["'][^"']{6,}["']'''
+tags = ["secret", "password"]
+severity = "HIGH"
+
+  [rules.allowlist]
+  regexes = [
+    '''os\.environ''',
+    '''environ\.get''',
+  ]
+
+[[rules]]
+id = "hardcoded-token"
+description = "Hardcoded token detected in source code"
+regex = '''(?i)token\s*=\s*["'][A-Za-z0-9\-_]{8,}["']'''
+tags = ["secret", "token"]
+severity = "HIGH"
+
+  [rules.allowlist]
+  regexes = [
+    '''os\.environ''',
+    '''environ\.get''',
+    '''\$\{\{''',             # allow GitHub Actions ${{ secrets.TOKEN }} syntax
+  ]
+
+[[rules]]
+id = "hardcoded-secret"
+description = "Generic hardcoded secret detected"
+regex = '''(?i)secret\s*=\s*["'][^"']{6,}["']'''
+tags = ["secret"]
+severity = "HIGH"
+
+  [rules.allowlist]
+  regexes = [
+    '''os\.environ''',
+    '''environ\.get''',
+    '''\$\{\{''',
+  ]
