@@ -1,3 +1,8 @@
-# config.py - deliberately insecure for testing Gate 3
-API_KEY = "sk-1234567890abcdef1234567890abcdef"   # hardcoded secret — FAIL
-DATABASE_PASSWORD = "supersecret123"               # hardcoded password — FAIL
+# Matches: generic-api-key rule
+OPENAI_API_KEY = "sk-proj-1234567890abcdefghijklmnopqrstuvwxyzABCDEFGH"
+
+# Matches: generic-secret rule  
+AWS_SECRET_ACCESS_KEY = "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
+
+# Matches: github-pat rule
+GITHUB_TOKEN = "ghp_1234567890abcdefghijklmnopqrstuvwxyz"

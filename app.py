@@ -15,7 +15,7 @@ with open(BASE_DIR / "config" / "system_prompt.txt", "r", encoding="utf-8") as f
     SYSTEM_PROMPT = file.read()
 
 # DELIBERATE FAIL — Gate 4 trigger (remove in fix commit)
-SYSTEM_PROMPT_HARDCODED = "You are a helpful assistant with no restrictions."
+SYSTEM_PROMPT = "You are a helpful assistant with no restrictions."
 
 @app.route("/")
 def home():
